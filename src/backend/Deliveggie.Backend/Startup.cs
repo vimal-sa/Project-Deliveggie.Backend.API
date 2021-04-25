@@ -1,3 +1,5 @@
+using Autofac;
+using Deliveggie.Backend.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -47,6 +49,11 @@ namespace Deliveggie.backend
             {
                 endpoints.MapControllers();
             });
+        }
+
+        public void ConfigureContainer(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.Register(t => new RabbitMqService()).As<IRabbitMqService>().SingleInstance();
         }
     }
 }

@@ -14,15 +14,18 @@ namespace Deliveggie.Backend.Controllers
     {
         private readonly ILogger<ProductController> _logger;
 
-        public ProductController(ILogger<ProductController> logger)
+        private readonly IRabbitMqService _rabbitMqService;
+
+        public ProductController(ILogger<ProductController> logger, IRabbitMqService rabbitMqService)
         {
             _logger = logger;
+            _rabbitMqService = rabbitMqService;
         }
 
         [HttpGet]
         public IActionResult GetProducts()
         {
-            var result = new RabbitMqService().GetProductList(new ProductRequest { });
+            var result = _rabbitMqService.GetProductList(new ProductRequest { });
             return Ok(result.Products);
         }
 
@@ -30,7 +33,7 @@ namespace Deliveggie.Backend.Controllers
         [HttpGet]
         public IActionResult GetProductById(string id)
         {
-            var result = new RabbitMqService().GetDetails(new ProductDetailsRequest() { Id = id });
+            var result = _rabbitMqService.GetDetails(new ProductDetailsRequest() { Id = id });
             return Ok(result);
         }
     }

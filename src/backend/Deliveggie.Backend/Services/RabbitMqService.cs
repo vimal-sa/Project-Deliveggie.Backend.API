@@ -4,8 +4,13 @@ using System;
 
 namespace Deliveggie.Backend.Services
 {
-    public class RabbitMqService
+    public class RabbitMqService : IRabbitMqService
     {
+        public RabbitMqService()
+        {
+
+        }
+
         public ProductsResponse GetProductList(ProductRequest request)
         {
             var product = new ProductsResponse();
