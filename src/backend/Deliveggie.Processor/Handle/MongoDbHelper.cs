@@ -16,27 +16,15 @@ namespace Deliveggie.Processor.Handle
         private string _productsCollection = "Products";
         private string _priceReductionsCollection = "PriceReductions";
 
-        public MongoDbHelper()//(IConfiguration iconfig)
+        public MongoDbHelper()
         {
-            //configuration = iconfig;
-            //var mongoDbHost = configuration.GetSection("MongoDbHost");
-            //var mongoClient = mongoDbHost.GetSection("MongoClient").Value;
-            //var mongodatabase = mongoDbHost.GetSection("Mongodatabase").Value;
-            //InitializeDatabase(mongoClient, mongodatabase);
-            Initialize("mongodb://localhost:27017", "DeliVeggie");
-            SetDatabase();
+            Initialize("mongodb://localhost:27017", "DeliVeggie");            
         }
 
         private void Initialize(string connectionString, string database)
         {
             IMongoClient mongoClient = new MongoClient(connectionString);
             iMongoDb = mongoClient.GetDatabase(database);
-        }
-
-        private void SetDatabase()
-        {
-            //var collection = iMongoDb.GetCollection<Products>(_productsCollection);           
-            //var priceDeductions = iMongoDb.GetCollection<PriceReductions>(_priceReductionsCollection);
         }
 
         public ProductsResponse GetProducts(ProductRequest request)
