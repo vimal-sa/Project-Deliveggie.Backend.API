@@ -1,0 +1,22 @@
+[
+  {
+    "Name": "Brinjal",
+    "EntryDate": "2012-04-23T18:25:43.511Z",
+    "Price": 20.543
+  },
+  {
+    "Name": "Tomato",
+    "EntryDate": "2012-04-23T18:25:43.511Z",
+    "Price": 12.543
+  },
+  {
+    "Name": "Beetroot",
+    "EntryDate": "2012-04-23T18:25:43.511Z",
+    "Price": 10.543
+  },
+  {
+    "Name": "Broccoli",
+    "EntryDate": "2012-04-23T18:25:43.511Z",
+    "Price": 50.543
+  }
+]

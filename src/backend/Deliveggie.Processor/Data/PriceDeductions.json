@@ -1,0 +1,30 @@
+[
+  {
+    "DayOfWeek": 1,
+    "Reduction": 0
+  },
+  {
+    "DayOfWeek": 2,
+    "Reduction": 0
+  },
+  {
+    "DayOfWeek": 3,
+    "Reduction": 0
+  },
+  {
+    "DayOfWeek": 4,
+    "Reduction": 0
+  },
+  {
+    "DayOfWeek": 5,
+    "Reduction": 0
+  },
+  {
+    "DayOfWeek": 6,
+    "Reduction": 0.2
+  },
+  {
+    "DayOfWeek": 7,
+    "Reduction": 0.5
+  }
+]
