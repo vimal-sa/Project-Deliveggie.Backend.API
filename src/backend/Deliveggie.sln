@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deliveggie.Processor", "Del
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deliveggie.Shared.Models", "Deliveggie.Shared.Models\Deliveggie.Shared.Models.csproj", "{DD838614-CCD3-4205-8408-8A782DA08EEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deliveggie.Backend.Api.Test", "Deliveggie.Backend.Api.Test\Deliveggie.Backend.Api.Test.csproj", "{070A2F55-CFBD-45B0-83BC-71C554706F23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deliveggie.Backend.Api.Test", "Deliveggie.Backend.Api.Test\Deliveggie.Backend.Api.Test.csproj", "{070A2F55-CFBD-45B0-83BC-71C554706F23}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{9CAC170D-58BE-4DA5-94DE-924A4D2DF91A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{070A2F55-CFBD-45B0-83BC-71C554706F23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{070A2F55-CFBD-45B0-83BC-71C554706F23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{070A2F55-CFBD-45B0-83BC-71C554706F23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CAC170D-58BE-4DA5-94DE-924A4D2DF91A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CAC170D-58BE-4DA5-94DE-924A4D2DF91A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CAC170D-58BE-4DA5-94DE-924A4D2DF91A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CAC170D-58BE-4DA5-94DE-924A4D2DF91A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

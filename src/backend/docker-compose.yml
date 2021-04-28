@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  rabbit:  
+    image: rabbitmq:3.6.7-management
+    expose:
+      - "5672"
+      - "15672"
+    ports:    
+      - 15672:15672
+      - 5672:5672
+
+  deliveggie.backend:
+    image: ${DOCKER_REGISTRY-}deliveggiebackend
+    ports:
+     - 35575:80
+    build:
+      context: .
+      dockerfile: Deliveggie.Backend\Dockerfile
+
+  deliveggie.processor:
+    image: ${DOCKER_REGISTRY-}deliveggieprocessor
+    build:
+      context: .
+      dockerfile: Deliveggie.Processor\Dockerfile
+
