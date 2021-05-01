@@ -1,14 +1,17 @@
 ﻿using Deliveggie.Shared.Models;
 using EasyNetQ;
+using Microsoft.Extensions.Configuration;
 using System;
 
 namespace Deliveggie.Backend.Services
 {
     public class RabbitMqService : IRabbitMqService
     {
-        public RabbitMqService()
-        {
+        public readonly string _rmqConnectionString;
 
+        public RabbitMqService(IConfiguration configuration)
+        {
+            _rmqConnectionString = configuration["rabbittMQConnectionstring"];
         }
 
         public ProductsResponse GetProductList(ProductRequest request)
@@ -16,7 +19,7 @@ namespace Deliveggie.Backend.Services
             var product = new ProductsResponse();
             try
             {
-                using (var bus = RabbitHutch.CreateBus("host=host.docker.internal;username=guest;password=guest"))
+                using (var bus = RabbitHutch.CreateBus(_rmqConnectionString))
                 {
                     product = bus.Rpc.Request<ProductRequest, ProductsResponse>(request);
                 }                
@@ -33,7 +36,7 @@ namespace Deliveggie.Backend.Services
             var product = new ProductDetailsResponse();
             try
             {
-                using (var bus = RabbitHutch.CreateBus("host=host.docker.internal;username=guest;password=guest"))
+                using (var bus = RabbitHutch.CreateBus(_rmqConnectionString))
                 {
                     product = bus.Rpc.Request<ProductDetailsRequest, ProductDetailsResponse>(request);
                 }

@@ -11,24 +11,28 @@ namespace Deliveggie.Processor.Handle
 {
     public class MongoDbHelper
     {
-        private IConfiguration configuration;
-        private IMongoDatabase iMongoDb;
+        private readonly IConfiguration Configuration;
+        private readonly string _mongoClient;
+        private readonly string _mongoDatabase;
         private string _productsCollection = "Products";
         private string _priceReductionsCollection = "PriceReductions";
+        private IMongoDatabase iMongoDb;
 
-        public MongoDbHelper()
+        public MongoDbHelper(IConfiguration configuration)
         {
-            Initialize("mongodb://host.docker.internal:27017", "DeliVeggie");            
+            Configuration = configuration;
+            _mongoClient = Configuration["MongoDbHost:MongoClient"];
+            //Console.WriteLine($"_mongoClient : {_mongoClient}");
+            _mongoDatabase = Configuration["MongoDbHost:Mongodatabase"];
+            //Console.WriteLine($"_mongoDatabase : {_mongoDatabase}");
+            Initialize();
         }
 
-        private void Initialize(string connectionString, string database)
-        {
-            IMongoClient mongoClient = new MongoClient(connectionString);
-            iMongoDb = mongoClient.GetDatabase(database);
-        }
+        #region Public methods
 
         public ProductsResponse GetProducts(ProductRequest request)
         {
+            //Initialize();
             var products = new List<Product>();
             var collection = iMongoDb.GetCollection<Products>(_productsCollection);
             var result = collection?.Find<Products>(x => true)?.ToList();
@@ -44,6 +48,7 @@ namespace Deliveggie.Processor.Handle
 
         public ProductDetailsResponse GetProductDetails(string id)
         {
+            //Initialize();
             var productDetailsResponse = new ProductDetailsResponse();
             var collection = iMongoDb.GetCollection<Products>(_productsCollection);
             ObjectId internalId = GetInternalId(id);
@@ -63,6 +68,16 @@ namespace Deliveggie.Processor.Handle
             return productDetailsResponse;
         }
 
+        #endregion
+
+        #region private methods
+
+        private void Initialize()
+        {
+            IMongoClient mongoClient = new MongoClient(_mongoClient);
+            iMongoDb = mongoClient.GetDatabase(_mongoDatabase);
+        }
+
         private PriceReductions GetPriceDeduction()
         {
             var day = DateTime.Today.DayOfWeek;
@@ -72,12 +87,14 @@ namespace Deliveggie.Processor.Handle
             return PriceReduction;
         }
 
-        public static ObjectId GetInternalId(string id)
+        private static ObjectId GetInternalId(string id)
         {
             if (!ObjectId.TryParse(id, out ObjectId internalId))
                 internalId = ObjectId.Empty;
 
             return internalId;
         }
+
+        #endregion
     }
 }

@@ -53,7 +53,7 @@ namespace Deliveggie.backend
 
         public void ConfigureContainer(ContainerBuilder containerBuilder)
         {
-            containerBuilder.Register(t => new RabbitMqService()).As<IRabbitMqService>().SingleInstance();
+            containerBuilder.Register(t => new RabbitMqService(Configuration)).As<IRabbitMqService>().SingleInstance();
         }
     }
 }

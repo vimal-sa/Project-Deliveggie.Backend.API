@@ -24,11 +24,18 @@ namespace Deliveggie.Processor
 
             Console.WriteLine("Deliveggie server Running!");
 
+            //building configurations
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+            var configuration = builder.Build();
+           
+            MongoDbHelper mongoDbHelper = new MongoDbHelper(configuration);
+
             Func<ProductRequest, ProductsResponse> ProductList = request =>
             {
                 try
-                {
-                    MongoDbHelper mongoDbHelper = new MongoDbHelper();
+                {                    
                     Console.WriteLine($"Message recieved for ProductList {request.Id }");
                     return mongoDbHelper.GetProducts(request);
                 }
@@ -43,7 +50,6 @@ namespace Deliveggie.Processor
             {
                 try
                 {
-                    MongoDbHelper mongoDbHelper = new MongoDbHelper();
                     Console.WriteLine($"Message recieved for ProductDetails {request.Id }");
                     return mongoDbHelper.GetProductDetails(request.Id);
                 }
@@ -55,14 +61,16 @@ namespace Deliveggie.Processor
             };
             try
             {
-                var bus = RabbitHutch.CreateBus("host=host.docker.internal;username=guest;password=guest");
+                string connectionString = configuration["rabbittMQConnectionstring"];
+                ////Console.WriteLine($"rabbittMQConnectionstring : {connectionString}");
+                var bus = RabbitHutch.CreateBus(connectionString);
                 bus.Rpc.Respond<ProductRequest, ProductsResponse>(ProductList);
                 bus.Rpc.Respond<ProductDetailsRequest, ProductDetailsResponse>(ProductDetails);
                 Console.WriteLine("Subscriber up");
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error: " + ex.Message);                          
+                Console.WriteLine("Error: " + ex.Message);
             }
             Console.WriteLine("Wait here");
             Console.Read();

@@ -1,7 +1,9 @@
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using System.IO;
 
 namespace Deliveggie.backend
 {
@@ -9,6 +11,12 @@ namespace Deliveggie.backend
     {
         public static void Main(string[] args)
         {
+
+            //building configurations
+            var builder = new ConfigurationBuilder()                
+                .AddJsonFile("appsettings.json");
+            var configuration = builder.Build();
+
             CreateHostBuilder(args).Run();
         }
 
