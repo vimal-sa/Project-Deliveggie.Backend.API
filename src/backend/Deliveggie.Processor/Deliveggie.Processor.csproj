@@ -30,4 +30,15 @@
     <ProjectReference Include="..\Deliveggie.Shared.Models\Deliveggie.Shared.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Data\PriceDeductions.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Products.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://json.schemastore.org/appsscript.json" /></VisualStudio></ProjectExtensions>
+
 </Project>

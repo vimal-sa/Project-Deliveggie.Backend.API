@@ -5,7 +5,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace Deliveggie.Processor.Handle
 {
@@ -74,8 +74,23 @@ namespace Deliveggie.Processor.Handle
 
         private void Initialize()
         {
-            IMongoClient mongoClient = new MongoClient(_mongoClient);
-            iMongoDb = mongoClient.GetDatabase(_mongoDatabase);
+            try
+            {
+                IMongoClient mongoClient = new MongoClient(_mongoClient);
+                iMongoDb = mongoClient.GetDatabase(_mongoDatabase);
+                var collection = iMongoDb.GetCollection<Products>(_productsCollection);
+                var result = collection?.Find<Products>(x => true)?.ToList();
+                if (result == null || !result.Any())
+                {
+                    Console.WriteLine("No data found in database. Adding default data in progress....");
+                    MongoDbInitializer.AddDefaultData(iMongoDb, _productsCollection, _priceReductionsCollection);
+                    Console.WriteLine("Data setup completed");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Database initialization failed with error: {ex.Message}");                
+            }
         }
 
         private PriceReductions GetPriceDeduction()
