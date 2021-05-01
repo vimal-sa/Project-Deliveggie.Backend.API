@@ -61,19 +61,23 @@ namespace Deliveggie.Processor
             };
             try
             {
-                string connectionString = configuration["rabbittMQConnectionstring"];
-                ////Console.WriteLine($"rabbittMQConnectionstring : {connectionString}");
-                var bus = RabbitHutch.CreateBus(connectionString);
-                bus.Rpc.Respond<ProductRequest, ProductsResponse>(ProductList);
-                bus.Rpc.Respond<ProductDetailsRequest, ProductDetailsResponse>(ProductDetails);
-                Console.WriteLine("Subscriber up");
+                while (true)
+                {                   
+                    string connectionString = configuration["rabbittMQConnectionstring"];
+                    ////Console.WriteLine($"rabbittMQConnectionstring : {connectionString}");
+                    using (var bus = RabbitHutch.CreateBus(connectionString))
+                    {
+                        bus.Rpc.Respond<ProductRequest, ProductsResponse>(ProductList);
+                        bus.Rpc.Respond<ProductDetailsRequest, ProductDetailsResponse>(ProductDetails);
+                        //Console.WriteLine("Subscriber up");
+                    }
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error: " + ex.Message);
             }
             Console.WriteLine("Wait here");
-            Console.Read();
         }
 
     }
