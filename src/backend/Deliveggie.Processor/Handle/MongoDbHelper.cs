@@ -18,7 +18,7 @@ namespace Deliveggie.Processor.Handle
 
         public MongoDbHelper()
         {
-            Initialize("mongodb://localhost:27017", "DeliVeggie");            
+            Initialize("mongodb://host.docker.internal:27017", "DeliVeggie");            
         }
 
         private void Initialize(string connectionString, string database)

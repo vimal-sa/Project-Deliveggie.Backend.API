@@ -16,7 +16,7 @@ namespace Deliveggie.Backend.Services
             var product = new ProductsResponse();
             try
             {
-                using (var bus = RabbitHutch.CreateBus("host=localhost"))
+                using (var bus = RabbitHutch.CreateBus("host=host.docker.internal;username=guest;password=guest"))
                 {
                     product = bus.Rpc.Request<ProductRequest, ProductsResponse>(request);
                 }                
@@ -33,7 +33,7 @@ namespace Deliveggie.Backend.Services
             var product = new ProductDetailsResponse();
             try
             {
-                using (var bus = RabbitHutch.CreateBus("host=localhost"))
+                using (var bus = RabbitHutch.CreateBus("host=host.docker.internal;username=guest;password=guest"))
                 {
                     product = bus.Rpc.Request<ProductDetailsRequest, ProductDetailsResponse>(request);
                 }

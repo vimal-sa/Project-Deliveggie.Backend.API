@@ -1,26 +1,43 @@
 version: '3.4'
 
 services:
-  rabbit:  
-    image: rabbitmq:3.6.7-management
+  rabbitmq: # login guest:guest
+    image: rabbitmq:3-management
+    hostname: "rabbitmq"
+    labels:
+      NAME: "rabbitmq"
+    ports:
+    - "5672:5672"
+    - "15672:15672"
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:15672"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+  
+  mongodb:  
+    image: mongo
     expose:
-      - "5672"
-      - "15672"
+      - "27017"
     ports:    
-      - 15672:15672
-      - 5672:5672
+      - 27017:27017
 
   deliveggie.backend:
-    image: ${DOCKER_REGISTRY-}deliveggiebackend
-    ports:
-     - 35575:80
+    image: ${DOCKER_REGISTRY-}deliveggiebackend:latest
+    restart: on-failure
+    depends_on:
+      - "rabbitmq"
     build:
       context: .
       dockerfile: Deliveggie.Backend\Dockerfile
+    ports:
+      - "35575:80"  
 
   deliveggie.processor:
-    image: ${DOCKER_REGISTRY-}deliveggieprocessor
+    image: ${DOCKER_REGISTRY-}deliveggieprocessor:latest
+    restart: on-failure
+    depends_on:
+      - "rabbitmq"
     build:
       context: .
       dockerfile: Deliveggie.Processor\Dockerfile
-
