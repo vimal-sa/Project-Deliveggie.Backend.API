@@ -1,14 +1,9 @@
 ﻿using Deliveggie.Processor.Handle;
-using Deliveggie.Processor.Model;
 using Deliveggie.Shared.Models;
 using EasyNetQ;
 using Microsoft.Extensions.Configuration;
-using MongoDB.Bson;
-using MongoDB.Driver;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Deliveggie.Processor
@@ -61,16 +56,14 @@ namespace Deliveggie.Processor
             };
             try
             {
-                while (true)
-                {                   
-                    string connectionString = configuration["rabbittMQConnectionstring"];
-                    ////Console.WriteLine($"rabbittMQConnectionstring : {connectionString}");
-                    using (var bus = RabbitHutch.CreateBus(connectionString))
-                    {
-                        bus.Rpc.Respond<ProductRequest, ProductsResponse>(ProductList);
-                        bus.Rpc.Respond<ProductDetailsRequest, ProductDetailsResponse>(ProductDetails);
-                        //Console.WriteLine("Subscriber up");
-                    }
+                string connectionString = configuration["rabbittMQConnectionstring"];
+                ////Console.WriteLine($"rabbittMQConnectionstring : {connectionString}");
+                using (var bus = RabbitHutch.CreateBus(connectionString))
+                {
+                    bus.Rpc.Respond<ProductRequest, ProductsResponse>(ProductList);
+                    bus.Rpc.Respond<ProductDetailsRequest, ProductDetailsResponse>(ProductDetails);
+                    Console.WriteLine("Subscriber up");
+                    Console.ReadLine();
                 }
             }
             catch (Exception ex)

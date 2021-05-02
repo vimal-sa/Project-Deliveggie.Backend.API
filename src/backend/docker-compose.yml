@@ -35,6 +35,7 @@ services:
 
   deliveggie.processor:
     image: ${DOCKER_REGISTRY-}deliveggieprocessor:latest
+    stdin_open: true
     restart: on-failure
     depends_on:
       - "rabbitmq"
